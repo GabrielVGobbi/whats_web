@@ -61,28 +61,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 	<div class="body">
-
-		<p id="demo">Clique no botão para receber sua localização em Latitude e Longitude:</p>
-<button onclick="getLocation()">Clique Aqui</button>
-<script>
-var x=document.getElementById("demo");
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    }
-  else{x.innerHTML="O seu navegador não suporta Geolocalização.";}
-  }
-function showPosition(position)
-  {
-  x.innerHTML="Latitude: " + position.coords.latitude +
-  "<br>Longitude: " + position.coords.longitude; 
-  }
-</script> 
-
-
-
 		<section class="section section-default bg-color-dark border-top-0 pt-4 pb-2">
 			<div class="container">
 				<div class="row">
