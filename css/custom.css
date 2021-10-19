@@ -1,0 +1,14 @@
+html.boxed .body {
+   border-radius: 11px;
+   background-color: #eef4f2;
+}
+
+.card-loja{
+   margin: 0;
+}
+
+@media (max-width: 422px) {
+	html {
+      height: auto;
+   }
+}
