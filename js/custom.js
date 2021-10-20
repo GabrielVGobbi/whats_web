@@ -8,11 +8,11 @@ $(document).ready(function () {
     getLocation();
 
     selectUf.on('change', function () {
-        selectUf.val() != '' ? city() : clear();
+        city()
     })
 
     selectCity.on('change', function () {
-        selectCity.val() != '' && selectUf.val() ? lojas() : clear();
+        lojas();
     })
 })
 
@@ -29,11 +29,15 @@ function getLocation() {
 }
 
 function showPosition(position) {
-    let local = localStorage.setItem('local', `${position.coords.latitude},${position.coords.longitude}`);
+    localStorage.setItem('local', `${position.coords.latitude},${position.coords.longitude}`);
     init();
 }
 
-function showError(error) { }
+function showError(error) {
+    if (error) {
+        uf();
+    }
+}
 
 function init() {
     $.ajax({
@@ -42,23 +46,62 @@ function init() {
         ajax: true,
         dataType: "JSON",
         success: function (j) {
-            
+            uf(j.uf, j.city)
         },
     });
-    //$.ajax({
-    //    url: `${base_url}uf`,
-    //    type: "GET",
-    //    ajax: true,
-    //    dataType: "JSON",
-    //    success: function (j) {
-    //        $.each(j, function (i, item) {
-    //            selectUf.append($('<option>', {
-    //                value: item.uf,
-    //                text: item.uf
-    //            }));
-    //        });
-    //    },
-    //});
+}
+
+function uf(uf, city) {
+    $.ajax({
+        url: `${base_url}uf`,
+        type: "GET",
+        ajax: true,
+        dataType: "JSON",
+        success: function (j) {
+            $.each(j, function (i, item) {
+                selectUf.append($('<option>', {
+                    value: item.uf,
+                    text: item.uf
+                }));
+            });
+
+            if (uf != '') {
+                selectUf.val(uf).change();
+                $.ajax({
+                    url: `${base_url}citys?uf=${uf}`,
+                    type: "GET",
+                    ajax: true,
+                    dataType: "JSON",
+                    beforeSend: (jqXHR, settings) => {
+                        selectCity.empty().append($('<option>', {
+                            value: 'selecione',
+                            text: 'Carregando...'
+                        }));
+                    },
+                    success: function (j) {
+                        selectCity.append($('<option>', {
+                            value: '',
+                            text: 'Selecione a cidade'
+                        }));
+                        $.each(j, function (i, item) {
+                            selectCity.append($('<option>', {
+                                value: item.cidade,
+                                text: item.cidade
+                            }));
+                        });
+                        console.log(city);
+                        if (city != '') {
+                            selectCity.val(city).change();
+                        }
+                    },
+                    complete: function () {
+                        $("#js-city option[value='selecione']").remove();
+                    }
+                });
+            }
+        },
+    });
+
 }
 
 function clear() {
@@ -71,55 +114,65 @@ function clear() {
     selectUf.val("").change();
 }
 
-function city() {
-    divResults.addClass('d-none');
-    divInit.removeClass('d-none');
-    let uf = selectUf.val();
-    $.ajax({
-        url: `${base_url}citys?uf=${uf}`,
-        type: "GET",
-        ajax: true,
-        dataType: "JSON",
-        beforeSend: (jqXHR, settings) => {
-            selectCity.empty().append($('<option>', {
-                value: 'selecione',
-                text: 'Carregando...'
-            }));
-        },
-        success: function (j) {
-            selectCity.append($('<option>', {
-                value: '',
-                text: 'Selecione a cidade'
-            }));
-            $.each(j, function (i, item) {
-                selectCity.append($('<option>', {
-                    value: item.cidade,
-                    text: item.cidade
+function city(city) {
+    if (selectUf.val() != '') {
+        divResults.addClass('d-none');
+        divInit.removeClass('d-none');
+        let uf = selectUf.val();
+        $.ajax({
+            url: `${base_url}citys?uf=${uf}`,
+            type: "GET",
+            ajax: true,
+            dataType: "JSON",
+            beforeSend: (jqXHR, settings) => {
+                selectCity.empty().append($('<option>', {
+                    value: 'selecione',
+                    text: 'Carregando...'
                 }));
-            });
-        },
-        complete: function () {
-            $("#js-city option[value='selecione']").remove();
-        }
-    });
+            },
+            success: function (j) {
+                selectCity.append($('<option>', {
+                    value: '',
+                    text: 'Selecione a cidade'
+                }));
+                $.each(j, function (i, item) {
+                    selectCity.append($('<option>', {
+                        value: item.cidade,
+                        text: item.cidade
+                    }));
+                });
+                console.log(city);
+                if (city != '') {
+                    selectCity.val(city).change();
+                }
+            },
+            complete: function () {
+                $("#js-city option[value='selecione']").remove();
+            }
+        });
+    } else {
+        clear()
+    }
 }
 
 function lojas() {
-    let uf = selectUf.val();
-    let city = selectCity.val();
-    $.ajax({
-        url: `${base_url}lojas?uf=${uf}&city=${city}`,
-        type: "GET",
-        ajax: true,
-        dataType: "JSON",
-        beforeSend: (jqXHR, settings) => {
+    if (selectCity.val() != '') {
 
-        },
-        success: function (j) {
-            let html = '';
-            $.each(j, function (i, item) {
-                console.log(item);
-                html += `
+        let uf = selectUf.val();
+        let city = selectCity.val();
+        $.ajax({
+            url: `${base_url}lojas?uf=${uf}&city=${city}`,
+            type: "GET",
+            ajax: true,
+            dataType: "JSON",
+            beforeSend: (jqXHR, settings) => {
+
+            },
+            success: function (j) {
+                let html = '';
+                $.each(j, function (i, item) {
+                    console.log(item);
+                    html += `
                 <div class="row card-loja appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
                     <a class="text-decoration-none">
                         <div class="feature-box custom-feature-box feature-box-style-2">
@@ -134,15 +187,16 @@ function lojas() {
                         </div>
                     </a>
                 </div>`
-            });
-            divResults.html(html);
-        },
-        complete: function () {
-            if ($.isFunction($.fn['themePluginAnimate']) && $('[data-appear-animation]').length) {
-                theme.fn.dynIntObsInit('[data-appear-animation], [data-appear-animation-svg]', 'themePluginAnimate', theme.PluginAnimate.defaults);
+                });
+                divResults.html(html);
+            },
+            complete: function () {
+                if ($.isFunction($.fn['themePluginAnimate']) && $('[data-appear-animation]').length) {
+                    theme.fn.dynIntObsInit('[data-appear-animation], [data-appear-animation-svg]', 'themePluginAnimate', theme.PluginAnimate.defaults);
+                }
+                divResults.removeClass('d-none');
+                divInit.addClass('d-none');
             }
-            divResults.removeClass('d-none');
-            divInit.addClass('d-none');
-        }
-    });
+        });
+    }
 }
