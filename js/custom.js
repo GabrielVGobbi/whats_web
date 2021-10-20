@@ -5,7 +5,6 @@ let divResults = $('#js-results');
 let divInit = $('#js-init');
 
 $(document).ready(function () {
-    init();
     getLocation();
 
     selectUf.on('change', function () {
@@ -18,50 +17,34 @@ $(document).ready(function () {
 })
 
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    let local = localStorage.getItem("local") ?? false;
+
+    if (!local) {
+        if (localnavigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        }
+    } else {
+        init();
     }
 }
 
 function showPosition(position) {
-    console.log(position)
+    let local = localStorage.setItem('local', `${position.coords.latitude},${position.coords.longitude}`);
+    init();
 }
 
-function showError(error) {
-    switch (error.code) {
-        case error.PERMISSION_DENIED:
-            x.innerHTML = "Usuário rejeitou a solicitação de Geolocalização."
-            break;
-        case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Localização indisponível."
-            break;
-        case error.TIMEOUT:
-            x.innerHTML = "A requisição expirou."
-            break;
-        case error.UNKNOWN_ERROR:
-            x.innerHTML = "Algum erro desconhecido aconteceu."
-            break;
-    }
-}
+function showError(error) { }
 
 function init() {
-
     $.ajax({
-        url: `${base_url}geo`,
+        url: `${base_url}geo?local=${localStorage.getItem("local")}`,
         type: "GET",
         ajax: true,
         dataType: "JSON",
         success: function (j) {
-            $.each(j, function (i, item) {
-                selectUf.append($('<option>', {
-                    value: item.uf,
-                    text: item.uf
-                }));
-            });
+            
         },
     });
-
-
     //$.ajax({
     //    url: `${base_url}uf`,
     //    type: "GET",
