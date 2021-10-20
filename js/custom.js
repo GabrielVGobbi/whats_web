@@ -20,7 +20,7 @@ function getLocation() {
     let local = localStorage.getItem("local") ?? false;
 
     if (!local) {
-        if (localnavigator.geolocation) {
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
         }
     } else {
