@@ -77,11 +77,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							<div class="row">
 								<div class="form-group col">
 									<div class="custom-select-1">
-										<select class="form-select form-control h-auto py-2" name="">
-										<option value="0">Estado</option>
-										<option value="1">AC</option>
-										<option value="2">AL</option>
-										<option value="3">AM</option>
+										<select class="form-select form-control h-auto py-2" id="js-uf" name="">
+										<option value="">Estado</option>
 										</select>
 									</div>
 								</div>
@@ -89,11 +86,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							<div class="row">
 								<div class="form-group col">
 									<div class="custom-select-1">
-										<select class="form-select form-control h-auto py-2" name="">
-										<option value="0">Cidade</option>
-										<option value="1">Barueri</option>
-										<option value="2">Rio de Janeiro</option>
-										<option value="3">São Paulo</option>
+										<select class="form-select form-control h-auto py-2" id="js-city" name="">
+											<option value="">Selecione o Estado</option>
 										</select>
 									</div>
 								</div>
@@ -103,11 +97,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				</div>
 			</div>
 		</section>
-		<section class="section section-default bg-secondary border-top-0 pt-4">
+		<section class="section section-default section-secondary bg-secondary border-top-0 pt-4">
 			<div class="container">
 				<div class="row">
 
-					<div class="col-md-12">
+					<div class="col-md-12" id="js-init">
 						<div class="featured-box featured-box-primary border-all-light border-radius box-shadow-none box-shadow-1 box-shadow-1-hover border-color-transparent-hover">
 							<div class="box-content border-0 p-5">
 								<span class="text-10">
@@ -124,54 +118,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 						</div>
 					</div>
 
-					<!--<div class="col-md-12">
-
-						<div class="row card-loja appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
-							<a class="text-decoration-none">
-								<div class="feature-box custom-feature-box feature-box-style-2">
-									<div class="feature-box-icon">
-										<img src="img/morana.png" alt="">
-									</div>
-									<div class="feature-box-info ms-3">
-										<h4 class="font-weight-normal text-4">Shopping Tamboré</h4>
-										<p class="text-2 mb-1">Av. Piracema, 669 - Lj. 82A, Tamboré</p>
-										<a class="btn btn-rounded btn-success" style="width: 100%;"><i class="fab fa-whatsapp"></i> Whatsapp</a>
-									</div>
-								</div>
-							</a>
-						</div>
-
-						<div class="row card-loja appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
-							<a class="text-decoration-none">
-								<div class="feature-box custom-feature-box feature-box-style-2">
-									<div class="feature-box-icon">
-										<img src="img/morana.png" alt="">
-									</div>
-									<div class="feature-box-info ms-3">
-										<h4 class="font-weight-normal text-4">Shopping Iguatemi Alphaville</h4>
-										<p class="text-2 mb-1">Al. Rio Negro, 111 - Lj 359 - Piso Tocantins, Alphaville</p>
-										<a class="btn btn-rounded btn-success" style="width: 100%;"><i class="fab fa-whatsapp"></i> Whatsapp</a>
-									</div>
-								</div>
-							</a>
-						</div>
-
-						<div class="row card-loja appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
-							<a class="text-decoration-none">
-								<div class="feature-box custom-feature-box feature-box-style-2">
-									<div class="feature-box-icon">
-										<img src="img/morana.png" alt="">
-									</div>
-									<div class="feature-box-info ms-3">
-										<h4 class="font-weight-normal text-4">Parque Shopping Barueri</h4>
-										<p class="text-2 mb-1">R. General De Divisão De Pedro Rodrigues Da Silva, 400 LJ. Luc 2053, Aldeia</p>
-										<a class="btn btn-rounded btn-success" style="width: 100%;"><i class="fab fa-whatsapp"></i> Whatsapp</a>
-									</div>
-								</div>
-							</a>
-						</div>
-
-					</div>-->
+					<div class="col-md-12 d-none" id="js-results"></div>
 
 					<div class="col pt-1">
 						<div class="feature-box-icon mb-4 text-center">

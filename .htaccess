@@ -1,2 +1,0 @@
-.git
-RedirectMatch 301 /.git /not-found
