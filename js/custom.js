@@ -1,4 +1,4 @@
-let base_url = 'http://www2.api.whatsappmorana.com/v1/';
+let base_url = 'https://api.whatsappmorana.com/v1/';
 let selectCity = $('#js-city');
 let selectUf = $('#js-uf');
 let divResults = $('#js-results');
@@ -25,6 +25,23 @@ function getLocation() {
 
 function showPosition(position) {
     console.log(position)
+}
+
+function showError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "Usuário rejeitou a solicitação de Geolocalização."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Localização indisponível."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "A requisição expirou."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "Algum erro desconhecido aconteceu."
+            break;
+    }
 }
 
 function init() {
