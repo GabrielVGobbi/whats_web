@@ -89,7 +89,6 @@ function uf(uf, city) {
                                 text: item.cidade
                             }));
                         });
-                        console.log(city);
                         if (city != '') {
                             selectCity.val(city).change();
                         }
@@ -111,7 +110,6 @@ function clear() {
         value: '',
         text: 'Selecione o Estado'
     }));
-    selectUf.val("").change();
 }
 
 function city(city) {
@@ -141,7 +139,6 @@ function city(city) {
                         text: item.cidade
                     }));
                 });
-                console.log(city);
                 if (city != '') {
                     selectCity.val(city).change();
                 }
@@ -171,7 +168,6 @@ function lojas() {
             success: function (j) {
                 let html = '';
                 $.each(j, function (i, item) {
-                    console.log(item);
                     html += `
                 <div class="row card-loja appear-animation" data-appear-animation="fadeInUp" data-appear-animation-delay="0">
                     <a class="text-decoration-none">
