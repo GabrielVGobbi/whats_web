@@ -89,7 +89,7 @@ function uf(uf, city) {
                                 text: item.cidade
                             }));
                         });
-                        if (city != '') {
+                        if (city != '' && $(`#js-city option[value='${city}']`).length > 0) {
                             selectCity.val(city).change();
                         }
                     },
